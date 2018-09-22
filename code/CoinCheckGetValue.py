@@ -12,7 +12,8 @@ class CoinCheckGetCValue():
     # high  24時間での最高取引価格
     # low  24時間での最安取引価格
     # volume 24時間での取引量 
-    connection = psycopg2.connect("host=localhost port=5432 dbname=DBNAME user=USERID password=PASSWORD")
+    connection = psycopg2.connect("host=localhost port=5432 dbname=test user=postgres password=k_yokose1330076")
+    # connection = psycopg2.connect("host=localhost port=5432 dbname=DBNAME user=USER password=PASSWORD")
     connection.get_backend_pid()
 
     cur = connection.cursor()
@@ -20,10 +21,15 @@ class CoinCheckGetCValue():
     last = jsonData["last"]
     bid  = jsonData["bid"]
     ask  = jsonData["ask"]
-    sql  = "INSERT INTO TableName VALUE(" + last + "," + bid + "," + ask + ")"
+    high  = jsonData["high"]
+    low  = jsonData["low"]
+    volume  = jsonData["volume"]
+    
+    sql  = "INSERT INTO BTC_VALUE (last_val,bid_val,ask_val,high_val,low_val,volume_val)"
+    sql += " VALUES(" + str(last) + "," + str(bid) + "," + str(ask) +  "," + str(high) + "," + str(low) + "," + str(volume) + ")"
 
     cur.execute(sql)
-    cur.fetchone()
+    connection.commit()
     # print(jsonData)
 
 if __name__ == "__main__":
