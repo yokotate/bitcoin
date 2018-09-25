@@ -34,6 +34,7 @@ class DataAccess():
         connection.close()
     
     # BTC_VALUEテーブルからデータを全て取得し、List形で返す
+    # トレーニング用の関数
     def SelectBTC_VALUE(self):
         BtcList = []
         cur,connection = self.__ConectToDB()
@@ -45,6 +46,56 @@ class DataAccess():
         cur.close()
         connection.close()
         return BtcList
+    
+    def SelectUserData(self):
+        userdata = []
+        try:
+            cur,connection = self.__ConectToDB()
+            sql = "SELECT * FROM USERDATA"
+            cur.execute(sql)
+            for row in cur:
+                userdata.append(row)
+            cur.close()
+            connection.close()
+            return userdata
+        except:
+            return userdata
+   
+    # BTCを買った際にユーザーデータの更新を行う
+    def UpdateUserDataBuy(self,volume,value):
+        try:
+            cur,connection = self.__ConectToDB()
+            sql = "UPDATE USERDATA SET money = 0, bitcoin = {}, bitcoinbuyvalue = {}, BitCoinFlag = FALSE"
+            sql = sql.format(volume,value)
+            cur.close()
+            connection.close()
+            return True
+        except:
+            return False
+
+    # BTCを売ったった際にユーザーデータの更新を行う
+    def UpdateUserDataSell(self,money):
+        try:
+            cur,connection = self.__ConectToDB()
+            sql = "UPDATE USERDATA SET money = {}, bitcoin = 0, bitcoinbuyvalue = 0, BitCoinFlag = TRUE"
+            sql = sql.format(money)
+            cur.close()
+            connection.close()
+            return True
+        except:
+            return False
+    
+    def TrainDataSet(self):
+        try:
+            cur,connection = self.__ConectToDB()
+            sql = "INSERT INTO USERDATA VALUES(money = 10000, bitcoin = 0, bitcoinbuyvalue = 0, BitCoinFlag = TRUE)"
+            cur.close()
+            connection.close()
+            return True
+        except:
+            return False
+
+
         
         
 if __name__ == "__main__":
