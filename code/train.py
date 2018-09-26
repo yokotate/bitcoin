@@ -24,10 +24,12 @@ sh.setFormatter(formatter)
 if __name__ == "__main__":
     # parameters
     n_epochs = 1000
+    TestDataNum = 200
+
     pgenv = pg.PlayGround()
     daenv = da.DataAccess()
     data = daenv.SelectBTC_VALUE()
-    agent = DQNAgent(pgenv.enable_actions,pgenv.name,7)
+    agent = DQNAgent(pgenv.enable_actions,pgenv.name,14)
 
     averagelist = [10000]
 
@@ -46,8 +48,11 @@ if __name__ == "__main__":
         hour_bid   = np.array([])
         hour_ask   = np.array([])
 
+        rnd = int(np.random.rand() * (len(data) - 1441 - TestDataNum))
+        rndData = np.array(data[rnd:rnd + 1440 + TestDataNum])
+
         # データ個数分トレーニングを実行する
-        for row in data:
+        for row in rndData:
             i = i + 1
             if i <= 1439:
                 continue

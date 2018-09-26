@@ -38,8 +38,7 @@ class DataAccess():
     def SelectBTC_VALUE(self):
         BtcList = []
         cur,connection = self.__ConectToDB()
-        # sql = "SELECT * FROM BTC_VALUE"
-        sql = "SELECT * FROM(SELECT * FROM btc_value ORDER BY ID DESC LIMIT 1640)VAL ORDER BY ID"
+        sql = "SELECT * FROM BTC_VALUE"
         cur.execute(sql)
         # 取得したデータをList形に変換
         for row in cur:

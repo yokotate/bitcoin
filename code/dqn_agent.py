@@ -11,13 +11,13 @@ class DQNAgent:
     Multi Layer Perceptron with Experience Replay
     """
 
-    def __init__(self, enable_actions, environment_name, Board_Size):
+    def __init__(self, enable_actions, environment_name, dataNum):
         # parameters
         self.name = os.path.splitext(os.path.basename(__file__))[0]
         self.environment_name = environment_name
         self.enable_actions = enable_actions.tolist()
         self.n_actions = len(self.enable_actions)
-        self.InputDataNum = 14
+        self.InputDataNum = dataNum
         self.minibatch_size = 32
         self.replay_memory_size = 1000
         self.learning_rate = 0.001
@@ -36,7 +36,7 @@ class DQNAgent:
         self.current_loss = 0.0
 
     def init_model(self):
-        # input layer (Board_Size x Board_Size)
+        # input layer (dataNum x dataNum)
         self.x = tf.placeholder(tf.float32, [None, 1, self.InputDataNum])
 
         # flatten (Size)
