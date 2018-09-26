@@ -48,11 +48,15 @@ if __name__ == "__main__":
         hour_bid   = np.array([])
         hour_ask   = np.array([])
 
-        rnd = int(np.random.rand() * (len(data) - 1441 - TestDataNum))
-        rndData = np.array(data[rnd:rnd + 1440 + TestDataNum])
+        # ランダムデータトレーニング
+        # rnd = int(np.random.rand() * (len(data) - 1441 - TestDataNum))
+        # rndData = np.array(data[rnd:rnd + 1440 + TestDataNum])
+
+        # トレーニングデータの作成
+        daenv.TrainDataSet()
 
         # データ個数分トレーニングを実行する
-        for row in rndData:
+        for row in data:
             i = i + 1
             if i <= 1439:
                 continue
@@ -71,6 +75,9 @@ if __name__ == "__main__":
 
             # 実行処理
             action = agent.select_action(infolist,enable_actions,agent.exploration)
+            # 取得時現金を取得
+            MyMoney = pgenv.MyMoney
+
             pgenv.action(action)
             if action == 0:
                 act = "No Action"
@@ -83,15 +90,15 @@ if __name__ == "__main__":
             after_enable_actions = pgenv.EnableActionList()
             after_infolist = pgenv.Returninfo()
             after_BitCoinFlag = pgenv.BitcoinFlag
+
+            result = pgenv.ReturnResult()
             
             reword = 0
-            if len(data) == i:
-                if InitBuyMoney <= pgenv.MyMoney:
-                    ave = sum(averagelist)/len(averagelist)
-                    averagelist.append(pgenv.MyMoney)
-                    if ave <= pgenv.MyMoney:
-                        reword = 1
-                        logger.log(100,"GREATE SUCCESS!!!")
+            if action == 2:
+                bairitu = result / MyMoney
+                if 1.0 <= bairitu:
+                    reword = bairitu
+                    logger.log(100,"GREATE SUCCESS!!!")
                 agent.store_experience(infolist,enable_actions,action,reword,after_infolist,after_enable_actions,True)
             else:
                 agent.store_experience(infolist,enable_actions,action,reword,after_infolist,after_enable_actions,False)
@@ -99,7 +106,6 @@ if __name__ == "__main__":
             logger.log(10, "epochs:%d data:%d Result:%d profit:%d act:%s" % (e, i - 1440, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney, act))
         logger.log(20, "END Epochs:%d Result:%d profit:%d" % (e, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney)) 
         
-        daenv.TrainDataSet()
     agent.save_model()
 
 

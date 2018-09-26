@@ -62,11 +62,11 @@ class DataAccess():
             return userdata
    
     # BTCを買った際にユーザーデータの更新を行う
-    def UpdateUserDataBuy(self,volume,value):
+    def UpdateUserDataBuy(self,volume,money,value):
         try:
             cur,connection = self.__ConectToDB()
-            sql = "UPDATE USERDATA SET money = 0, bitcoin = {}, bitcoinbuyvalue = {}, BitCoinFlag = TRUE"
-            sql = sql.format(volume,value)
+            sql = "UPDATE USERDATA SET money = 0, bitcoin = {},BitCoinBuyMoney = {}, bitcoinbuyvalue = {}, BitCoinFlag = TRUE"
+            sql = sql.format(volume,money,value)
             cur.execute(sql)
             connection.commit()
             cur.close()
@@ -79,7 +79,7 @@ class DataAccess():
     def UpdateUserDataSell(self,money):
         try:
             cur,connection = self.__ConectToDB()
-            sql = "UPDATE USERDATA SET money = {}, bitcoin = 0, bitcoinbuyvalue = 0, BitCoinFlag = FALSE"
+            sql = "UPDATE USERDATA SET money = {}, bitcoin = 0,　BitCoinBuyMoney = 0, bitcoinbuyvalue = 0, BitCoinFlag = FALSE"
             sql = sql.format(money)
             cur.execute(sql)
             connection.commit()

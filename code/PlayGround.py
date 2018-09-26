@@ -95,7 +95,7 @@ class PlayGround():
     # 購入するメソッド
     def BuyAction(self):
         BuyVolume = self.MyMoney / self.ask
-        self.env.UpdateUserDataBuy(BuyVolume, self.bid)
+        self.env.UpdateUserDataBuy(BuyVolume,self.MyMoney , self.bid)
         self.reset()
 
     # 売却するメソッド
