@@ -2,8 +2,6 @@ import DataAccess as da
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
-import pandas as pd
-import logging
 
 hour24_bid = np.array([])
 hour24_ask = np.array([])
