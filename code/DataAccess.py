@@ -38,7 +38,8 @@ class DataAccess():
     def SelectBTC_VALUE(self):
         BtcList = []
         cur,connection = self.__ConectToDB()
-        sql = "SELECT * FROM BTC_VALUE"
+        # sql = "SELECT * FROM BTC_VALUE"
+        sql = "SELECT * FROM(SELECT * FROM btc_value ORDER BY ID DESC LIMIT 1640)VAL ORDER BY ID"
         cur.execute(sql)
         # 取得したデータをList形に変換
         for row in cur:
@@ -65,20 +66,24 @@ class DataAccess():
     def UpdateUserDataBuy(self,volume,value):
         try:
             cur,connection = self.__ConectToDB()
-            sql = "UPDATE USERDATA SET money = 0, bitcoin = {}, bitcoinbuyvalue = {}, BitCoinFlag = FALSE"
+            sql = "UPDATE USERDATA SET money = 0, bitcoin = {}, bitcoinbuyvalue = {}, BitCoinFlag = TRUE"
             sql = sql.format(volume,value)
+            cur.execute(sql)
+            connection.commit()
             cur.close()
             connection.close()
             return True
         except:
             return False
 
-    # BTCを売ったった際にユーザーデータの更新を行う
+    # BTCを売った際にユーザーデータの更新を行う
     def UpdateUserDataSell(self,money):
         try:
             cur,connection = self.__ConectToDB()
-            sql = "UPDATE USERDATA SET money = {}, bitcoin = 0, bitcoinbuyvalue = 0, BitCoinFlag = TRUE"
+            sql = "UPDATE USERDATA SET money = {}, bitcoin = 0, bitcoinbuyvalue = 0, BitCoinFlag = FALSE"
             sql = sql.format(money)
+            cur.execute(sql)
+            connection.commit()
             cur.close()
             connection.close()
             return True
@@ -88,7 +93,9 @@ class DataAccess():
     def TrainDataSet(self):
         try:
             cur,connection = self.__ConectToDB()
-            sql = "INSERT INTO USERDATA VALUES(money = 10000, bitcoin = 0, bitcoinbuyvalue = 0, BitCoinFlag = TRUE)"
+            sql = "UPDATE USERDATA SET money = 10000, bitcoin = 0, bitcoinbuyvalue = 0, BitCoinFlag = FALSE"
+            cur.execute(sql)
+            connection.commit()
             cur.close()
             connection.close()
             return True
