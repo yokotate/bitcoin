@@ -15,6 +15,7 @@ CREATE TABLE BTC_VALUE(
 CREATE TABLE USERDATA(
 	Money bigint,				-- 所持金額
 	BitCoin bigint,				-- 所持ビットコイン量
+	BitCoinBuyMoney bigint,		-- 取得時現金
 	BitCoinBuyValue bigint,		-- 取得時ビットコイン価格
 	BitCoinFlag Boolean			-- ビットコイン所持フラグ
 );
