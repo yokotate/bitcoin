@@ -103,7 +103,7 @@ if __name__ == "__main__":
             else:
                 agent.store_experience(infolist,enable_actions,action,reword,after_infolist,after_enable_actions,False)
                 agent.experience_replay()
-            logger.log(10, "epochs:%d data:%d Result:%d profit:%d act:%s" % (e, i - 1440, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney, act))
+            logger.log(10, "epochs:%d data:%d Result:%d profit:%d act:%s" % (e, i - 1439, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney, act))
         logger.log(20, "END Epochs:%d Result:%d profit:%d" % (e, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney)) 
         
     agent.save_model()
