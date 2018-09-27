@@ -23,16 +23,6 @@ class PlayGround():
         self.MyCoin = Data[0][1]
         self.MyCoinGetValue = Data[0][2]
         self.BitcoinFlag = Data[0][3]
-        # テスト用（削除してね！！）
-        # res = requests.get('https://coincheck.com/api/ticker')
-        # jsonData = res.json()
-        # self.last = jsonData["last"]
-        # self.bid  = jsonData["bid"]
-        # self.ask  = jsonData["ask"]
-        # self.high  = jsonData["high"]
-        # self.low  = jsonData["low"]
-        # self.volume  = jsonData["volume"]
-        # テスト用（削除してね！！）
 
     # 各種仮想通貨データを取得
     def DataSet(self,last,bid,ask,high,low,volume,hour24_bid,hour24_ask,hour_bid,hour_ask):
@@ -111,7 +101,3 @@ class PlayGround():
         else:
             return self.bid * self.MyCoin
     
-if __name__ == "__main__":
-    env = PlayGround()
-    env.BuyAction()
-

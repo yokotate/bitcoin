@@ -22,14 +22,17 @@ fh.setFormatter(formatter)
 sh.setFormatter(formatter)
 
 if __name__ == "__main__":
-    # parameters
+    # トレーニング回数
     n_epochs = 1000
-    TestDataNum = 200
+    # 受け渡しデータ数
+    DataNum = 14
+    # トレーニングデータ数（現在未使用）
+    # TestDataNum = 200
 
     pgenv = pg.PlayGround()
     daenv = da.DataAccess()
     data = daenv.SelectBTC_VALUE()
-    agent = DQNAgent(pgenv.enable_actions,pgenv.name,14)
+    agent = DQNAgent(pgenv.enable_actions,pgenv.name,DataNum)
 
     averagelist = [10000]
 
