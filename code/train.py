@@ -23,7 +23,7 @@ sh.setFormatter(formatter)
 
 if __name__ == "__main__":
     # トレーニング回数
-    n_epochs = 1000
+    n_epochs = 10000
     # 受け渡しデータ数
     DataNum = 14
     # トレーニングデータ数（現在未使用）
@@ -43,6 +43,7 @@ if __name__ == "__main__":
         # 初期化
         pgenv.reset()
         i = 0
+        count = 0
         length = len(data)
         # 初期金額を保存
         InitBuyMoney = pgenv.MyMoney
@@ -52,6 +53,11 @@ if __name__ == "__main__":
         hour24_ask = np.array([])
         hour_bid   = np.array([])
         hour_ask   = np.array([])
+
+        # 行動と行動の間隔を開けてみる
+        # 60なら１時間に一回の行動
+        SET_ACTION_TIME = 60
+        NotActionTime = SET_ACTION_TIME
 
         # ランダムデータトレーニング
         # rnd = int(np.random.rand() * (len(data) - 1441 - TestDataNum))
@@ -67,7 +73,13 @@ if __name__ == "__main__":
             hour24_ask = np.array(data[i - 1440:i])[:,3]
             hour_bid   = np.array(data[i - 60:i])[:,2]
             hour_ask   = np.array(data[i - 60:i])[:,3]
-            
+
+            if NotActionTime != SET_ACTION_TIME:
+                NotActionTime += 1
+                continue
+            NotActionTime = 0
+
+            count += 1
             # データセット
             pgenv.DataSet(row[1], row[2], row[3], row[4], row[5], row[6], np.average(hour24_bid), np.average(hour24_ask), np.average(hour_bid), np.average(hour_ask))
 
@@ -99,16 +111,17 @@ if __name__ == "__main__":
             reword = 0
             if action == 2:
                 bairitu = result / MyMoney
+                reword = bairitu
                 if 1.0 <= bairitu:
-                    reword = bairitu
                     logger.log(100,"GREATE SUCCESS!!!")
                 else:
                     logger.log(100,"BAD ACTION......")
                 agent.store_experience(infolist,enable_actions,action,reword,after_infolist,after_enable_actions,True)
             else:
+                reword = (2 - reword) * - 1
                 agent.store_experience(infolist,enable_actions,action,reword,after_infolist,after_enable_actions,False)
-                agent.experience_replay()
-            logger.log(20, "epochs:%d data:%d Result:%d profit:%d act:%s" % (e, i - 1439, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney, act))
+            agent.experience_replay()
+            logger.log(20, "epochs:%d data:%d Result:%d profit:%d act:%s" % (e, count, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney, act))
         logger.log(20, "END Epochs:%d Result:%d profit:%d" % (e, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney)) 
         agent.save_model()
 
