@@ -79,7 +79,7 @@ class DataAccess():
     def UpdateUserDataSell(self,money):
         try:
             cur,connection = self.__ConectToDB()
-            sql = "UPDATE USERDATA SET money = {}, bitcoin = 0,　BitCoinBuyMoney = 0, bitcoinbuyvalue = 0, BitCoinFlag = FALSE"
+            sql = "UPDATE USERDATA SET money = {}, bitcoin = 0, BitCoinBuyMoney = 0, bitcoinbuyvalue = 0, BitCoinFlag = FALSE"
             sql = sql.format(money)
             cur.execute(sql)
             connection.commit()
@@ -92,7 +92,7 @@ class DataAccess():
     def TrainDataSet(self):
         try:
             cur,connection = self.__ConectToDB()
-            sql = "UPDATE USERDATA SET money = 10000, bitcoin = 0, bitcoinbuyvalue = 0, BitCoinFlag = FALSE"
+            sql = "UPDATE USERDATA SET money = 10000, bitcoin = 0, BitCoinBuyMoney = 0, bitcoinbuyvalue = 0, BitCoinFlag = FALSE"
             cur.execute(sql)
             connection.commit()
             cur.close()

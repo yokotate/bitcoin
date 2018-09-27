@@ -21,8 +21,9 @@ class PlayGround():
         Data = self.env.SelectUserData()
         self.MyMoney = Data[0][0]
         self.MyCoin = Data[0][1]
-        self.MyCoinGetValue = Data[0][2]
-        self.BitcoinFlag = Data[0][3]
+        self.MyCoinGetMoney = Data[0][2]
+        self.MyCoinGetValue = Data[0][3]
+        self.BitcoinFlag = Data[0][4]
 
     # 各種仮想通貨データを取得
     def DataSet(self,last,bid,ask,high,low,volume,hour24_bid,hour24_ask,hour_bid,hour_ask):
