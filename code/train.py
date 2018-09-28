@@ -116,9 +116,9 @@ if __name__ == "__main__":
                     logger.log(100,"GREATE SUCCESS!!!")
                 else:
                     logger.log(100,"BAD ACTION......")
+                    reword = (2 - reword) * - 1
                 agent.store_experience(infolist,enable_actions,action,reword,after_infolist,after_enable_actions,True)
             else:
-                reword = (2 - reword) * - 1
                 agent.store_experience(infolist,enable_actions,action,reword,after_infolist,after_enable_actions,False)
             agent.experience_replay()
             logger.log(20, "epochs:%d data:%d Result:%d profit:%d act:%s" % (e, count, pgenv.ReturnResult(), pgenv.ReturnResult() - InitBuyMoney, act))
